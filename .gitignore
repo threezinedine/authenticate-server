@@ -31,12 +31,22 @@ ENV/
 env.bak/
 venv.bak/
 
-# Node.js
+# Node.js & Frontend
 node_modules/
 npm-debug.log
 yarn-error.log
 package-lock.json
 yarn.lock
+dist/
+dist-ssr/
+*.local
+
+# Storybook
+storybook-static/
+
+# Cypress
+cypress/videos/
+cypress/screenshots/
 
 # IDEs
 .idea/
@@ -56,6 +66,8 @@ htmlcov/
 .tox/
 .nox/
 .pytest_cache/
+coverage/
+.nyc_output/
 
 # Databases
 *.sqlite3
