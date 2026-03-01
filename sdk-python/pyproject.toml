@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ntt-client-auth"
+version = "0.1.0"
+description = "Python client SDK for Centralized Authentication Service"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "python-jose[cryptography]", 
+    "httpx",
+    "pydantic"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest"
+]

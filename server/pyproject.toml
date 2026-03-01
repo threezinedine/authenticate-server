@@ -1,0 +1,25 @@
+[project]
+name = "authenticate-server"
+version = "0.1.0"
+description = "Centralized Authentication Identity Provider"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.100.0",
+    "uvicorn[standard]",
+    "sqlalchemy>=2.0.0",
+    "alembic",
+    "pymysql",        # For MySQL database connection
+    "cryptography",   # For RS256 Asymmetric keys
+    "python-jose[cryptography]",
+    "passlib[bcrypt]",
+    "python-multipart",
+    "jinja2",
+    "pydantic[email]",
+    "pydantic-settings"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "httpx"
+]
