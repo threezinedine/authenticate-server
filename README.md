@@ -27,8 +27,21 @@ This monorepo manages the primary Authentication Server, isolated UI components,
 - `sdk-python/` - The Python Client SDK (`ntt-client-auth`), installable via PIP/uv.
 - `sdk-node/` - The Node.js Client SDK (`ntt-client-auth-node`), installable via NPM directly from GitHub.
 - `shared/` - Shared business logic and utilities across Python projects.
-- `examples/` - Demonstration projects (`fastapi-app` and `express-app`) validating the E2E lifecycle.
-- `helper.py` - A master CLI script located at the repository root to control and manage the entire monorepo (`python helper.py run server`, `python helper.py test sdk-python`).
+- `helper.py` - A master CLI script located at the repository root to dynamically execute commands defined in `commands.json`.
+
+### Using the Master CLI (`helper.py`)
+To easily spin up environments without worrying about correct directories, `helper.py` reads from `commands.json`.
+
+To see all available commands:
+```bash
+python helper.py
+```
+
+To execute a command (e.g. `run server` or `storybook`), simply pass the full name:
+```bash
+python helper.py "run server"
+python helper.py storybook
+```
 
 ## Developer Integration
 

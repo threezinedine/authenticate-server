@@ -1,0 +1,12 @@
+[
+    {
+        "name": "storybook",
+        "cwd": "server/frontend",
+        "command": "npm run storybook"
+    },
+    {
+        "name": "run server",
+        "cwd": "server",
+        "command": "uv run server.py"
+    }
+]
