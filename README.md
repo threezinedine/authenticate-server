@@ -35,7 +35,7 @@ This monorepo manages the primary Authentication Server, isolated UI components,
 ### Python (FastAPI) Waitlist Integration
 Install the internal SDK:
 ```bash
-pip install -e ./sdk-python
+pip install git+https://github.com/threezinedine/authenticate-server.git
 ```
 Usage:
 ```python
@@ -52,7 +52,7 @@ def get_items(user: dict = Depends(get_current_user)):
 ### Node.js (Express) Integration
 Install the SDK directly from the Git Repository:
 ```bash
-npm install git+https://github.com/my-repo/ntt-client-auth-node.git
+npm install git+https://github.com/threezinedine/authenticate-server.git
 ```
 Usage:
 ```javascript
