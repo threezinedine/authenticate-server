@@ -8,5 +8,25 @@
         "name": "run server",
         "cwd": "server",
         "command": "uv run server.py"
+    },
+    {
+        "name": "test e2e chrome",
+        "cwd": "",
+        "command": "npm run test:e2e:chrome"
+    },
+    {
+        "name": "test e2e firefox",
+        "cwd": "",
+        "command": "npm run test:e2e:firefox"
+    },
+    {
+        "name": "test e2e edge",
+        "cwd": "",
+        "command": "npm run test:e2e:edge"
+    },
+    {
+        "name": "dev e2e",
+        "cwd": "",
+        "command": "npm run dev:e2e"
     }
 ]

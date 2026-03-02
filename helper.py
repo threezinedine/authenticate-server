@@ -18,13 +18,21 @@ def load_helpers():
             print(f"Error parsing helper.json: {e}")
             sys.exit(1)
 
-def run_cmd(cmd_str, cwd_rel):
+def run_cmd(cmd_str, cwd_rel, inline=False):
     cwd = os.path.join(ROOT_DIR, cwd_rel) if cwd_rel else ROOT_DIR
     print(f"==> Running: {cmd_str}\n    in: {cwd}")
-    
+
     # We use shell=True since command strings are provided directly from configuration
     try:
-        subprocess.run(cmd_str, cwd=cwd, check=True, shell=True)
+        if inline:
+            # Run in the current terminal instance
+            subprocess.run(cmd_str, cwd=cwd, check=True, shell=True)
+        else:
+            # open the new intsance of terminal first
+            if os.name == "posix":
+                subprocess.run(f"gnome-terminal --working-directory={cwd} -- {cmd_str}", shell=True)
+            elif os.name == "nt":
+                subprocess.run(f"cmd /k cd /d {cwd} && {cmd_str}", shell=True)
     except subprocess.CalledProcessError as e:
         print(f"==> Error: Command failed with return code {e.returncode}")
         sys.exit(e.returncode)
@@ -39,21 +47,27 @@ def main():
     helpers = load_helpers()
     
     if len(sys.argv) < 2:
-        print("Usage: python helper.py <command_name>")
-        print("\nAvailable commands in helper.json:")
+        print("Usage: python helper.py [--inline] <command_name>")
+        print("\nAvailable commands in commands.json:")
         for h in helpers:
             print(f"  - {h.get('name')}")
         sys.exit(1)
         
     target_args = sys.argv[1:]
+    
+    inline = False
+    if "--inline" in target_args:
+        inline = True
+        target_args.remove("--inline")
+        
     target_name = " ".join(target_args)
     
     for h in helpers:
         if h.get("name") == target_name:
-            run_cmd(h.get("command"), h.get("cwd", ""))
+            run_cmd(h.get("command"), h.get("cwd", ""), inline=inline)
             return
             
-    print(f"Error: Command '{target_name}' not found in helper.json.")
+    print(f"Error: Command '{target_name}' not found in commands.json.")
     print("\nAvailable commands:")
     for h in helpers:
         print(f"  - {h.get('name')}")
