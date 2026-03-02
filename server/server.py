@@ -4,20 +4,27 @@ from contextlib import asynccontextmanager
 from sqlalchemy import inspect
 from app.database.session import engine, Base
 import app.database.models
+from app.api.v1.register.route import router as register_router
+from app.config import settings
 import os
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Check if the db tables are created or not, if not, create
-    inspector = inspect(engine)
-    if not inspector.has_table("users"):
-        print("Creating database tables...")
-        Base.metadata.create_all(bind=engine)
+    # Skip creating tables locally during test executions to prevent intercepting test sessions
+    if settings.ENVIRONMENT != "test":
+        inspector = inspect(engine)
+        if not inspector.has_table("users"):
+            print("Creating database tables...")
+            Base.metadata.create_all(bind=engine)
+        else:
+            print("Database tables already exist.")
     else:
-        print("Database tables already exist.")
+        print("Test environment detected, skipping lifespan DB creation.")
+    
     yield
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(register_router, prefix="/api/v1")
 
 # Point Jinja2 to the frontend pages directory
 templates_dir = os.path.join(os.path.dirname(__file__), "frontend", "pages")

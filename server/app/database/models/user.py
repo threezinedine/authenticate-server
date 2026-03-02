@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.database.session import Base
 from app.database.models.association import user_roles
+import bcrypt
 
 class User(Base):
     __tablename__ = "users"
@@ -19,3 +20,16 @@ class User(Base):
     profile = relationship("UserProfile", back_populates="user", uselist=False, cascade="all, delete-orphan")
     oauth_accounts = relationship("OAuthAccount", back_populates="user", cascade="all, delete-orphan")
     roles = relationship("Role", secondary=user_roles, back_populates="users")
+
+    def set_password(self, password: str):
+        salt = bcrypt.gensalt()
+        hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+        self.hashed_password = hashed.decode('utf-8')
+
+    def check_password(self, password: str) -> bool:
+        if not self.hashed_password:
+            return False
+        return bcrypt.checkpw(
+            password.encode('utf-8'),
+            self.hashed_password.encode('utf-8')
+        )

@@ -7,7 +7,7 @@
     {
         "name": "run server",
         "cwd": "server",
-        "command": "uv run server.py"
+        "command": "ENVIRONMENT=development && uv run server.py"
     },
     {
         "name": "start windows",
@@ -58,7 +58,7 @@
     {
         "name": "test server",
         "cwd": "server",
-        "command": "uv run pytest",
+        "command": "uv run pytest tests",
         "forceInline": true
     }
 ]
