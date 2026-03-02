@@ -15,7 +15,8 @@ dependencies = [
     "python-multipart",
     "jinja2",
     "pydantic[email]",
-    "pydantic-settings"
+    "pydantic-settings",
+    "pyjwt>=2.11.0",
 ]
 
 [dependency-groups]

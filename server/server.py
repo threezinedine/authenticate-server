@@ -5,6 +5,7 @@ from sqlalchemy import inspect
 from app.database.session import engine, Base
 import app.database.models
 from app.api.v1.register.route import router as register_router
+from app.api.v1.login.route import router as login_router
 from app.api.v1.locales.route import router as locales_router
 from app.config import settings
 import os
@@ -27,6 +28,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(register_router, prefix="/api/v1")
+app.include_router(login_router, prefix="/api/v1")
 app.include_router(locales_router, prefix="/api/v1/locales")
 
 # Point Jinja2 to the frontend pages directory

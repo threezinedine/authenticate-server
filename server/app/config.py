@@ -13,6 +13,8 @@ class Settings(BaseSettings):
     MYSQL_DB: str = "auth_db"
     
     JWT_ALGORITHM: str = "RS256"
+    JWT_REFRESH_ALGORITHM: str = "HS256"
+    JWT_REFRESH_SECRET_KEY: str = "super-secret-symmetric-key-for-refresh-tokens"
     RSA_PRIVATE_KEY_PATH: str = "/etc/secrets/private_key.pem"
     AVATAR_UPLOAD_DIR: str = "./uploads/avatars"
     PORT: int = 8000
