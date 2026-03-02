@@ -128,3 +128,29 @@ def test_password_too_long(client):
             }
         ]
     }
+
+def test_register_i18n_success(client):
+    payload = {
+        "email": "i18n_success@example.com",
+        "password": "securepassword123",
+        "first_name": "Test",
+        "last_name": "User"
+    }
+    
+    # Test valid registration with Vietnamese header
+    response = client.post("/api/v1/register/", json=payload, headers={"Accept-Language": "vi-VN,vi;q=0.9"})
+    assert response.status_code == 201
+    assert response.json()["message"] == "Đăng ký người dùng thành công."
+
+def test_register_i18n_duplicate_email(client):
+    payload = {
+        "email": "i18n_duplicate@example.com",
+        "password": "securepassword123"
+    }
+    # Register first time (using default)
+    client.post("/api/v1/register/", json=payload)
+    
+    # Second registration with same email should fail, requested in Spanish
+    response = client.post("/api/v1/register/", json=payload, headers={"Accept-Language": "es-ES,es;q=0.9"})
+    assert response.status_code == 400
+    assert response.json()["detail"] == "El correo electrónico ya está registrado"
