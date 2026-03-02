@@ -64,3 +64,36 @@ def create_refresh_token(user, expires_delta: timedelta = timedelta(days=30)) ->
     
     encoded_jwt = jwt.encode(claims, settings.JWT_REFRESH_SECRET_KEY, algorithm=settings.JWT_REFRESH_ALGORITHM)
     return encoded_jwt
+
+def verify_access_token(token: str) -> dict:
+    """
+    Verifies an RS256 Asymmetric Access Token using the RSA Public Key.
+    Ensures the token type is strictly 'access'.
+    """
+    public_key = _private_key.public_key()
+    
+    try:
+        # decode() automatically verifies expiration ('exp') and signature
+        payload = jwt.decode(token, public_key, algorithms=[settings.JWT_ALGORITHM])
+    except jwt.InvalidAlgorithmError:
+        raise ValueError("Invalid token type")
+    
+    if payload.get("type") != "access":
+        raise ValueError("Invalid token type")
+        
+    return payload
+
+def verify_refresh_token(token: str) -> dict:
+    """
+    Verifies an HS256 Symmetric Refresh Token.
+    Ensures the token type is strictly 'refresh'.
+    """
+    try:
+        payload = jwt.decode(token, settings.JWT_REFRESH_SECRET_KEY, algorithms=[settings.JWT_REFRESH_ALGORITHM])
+    except jwt.InvalidAlgorithmError:
+        raise ValueError("Invalid token type")
+    
+    if payload.get("type") != "refresh":
+        raise ValueError("Invalid token type")
+        
+    return payload
