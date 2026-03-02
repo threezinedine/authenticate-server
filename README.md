@@ -34,13 +34,13 @@ To easily spin up environments without worrying about correct directories, `help
 
 To see all available commands:
 ```bash
-python helper.py
+uv run helper.py
 ```
 
-To execute a command (e.g. `run server` or `storybook`), simply pass the full name:
+To execute a command (e.g. `run server` or `test components`), simply pass the full name:
 ```bash
-python helper.py "run server"
-python helper.py storybook
+uv run helper.py "run server"
+uv run helper.py "test components"
 ```
 
 ## Developer Integration

@@ -28,5 +28,11 @@
         "name": "dev e2e",
         "cwd": "",
         "command": "npm run dev:e2e"
+    },
+    {
+        "name": "test components",
+        "cwd": "server/frontend",
+        "command": "npm run test",
+        "forceInline": true
     }
 ]

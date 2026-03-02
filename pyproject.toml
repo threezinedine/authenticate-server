@@ -1,0 +1,9 @@
+[project]
+name = "authenticationservice"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dacite>=1.9.2",
+]
