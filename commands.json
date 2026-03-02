@@ -10,6 +10,26 @@
         "command": "uv run server.py"
     },
     {
+        "name": "start windows",
+        "cwd": "server",
+        "command": "docker-compose up"
+    },
+    {
+        "name": "stop windows",
+        "cwd": "server",
+        "command": "docker-compose down"
+    },
+    {
+        "name": "start linux",
+        "cwd": "server",
+        "command": "docker compose up"
+    },
+    {
+        "name": "stop linux",
+        "cwd": "server",
+        "command": "docker compose down"
+    },
+    {
         "name": "test e2e chrome",
         "cwd": "",
         "command": "npm run test:e2e:chrome"

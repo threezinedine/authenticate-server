@@ -1,8 +1,23 @@
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
+from contextlib import asynccontextmanager
+from sqlalchemy import inspect
+from app.database.session import engine, Base
+import app.database.models
 import os
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Check if the db tables are created or not, if not, create
+    inspector = inspect(engine)
+    if not inspector.has_table("users"):
+        print("Creating database tables...")
+        Base.metadata.create_all(bind=engine)
+    else:
+        print("Database tables already exist.")
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 # Point Jinja2 to the frontend pages directory
 templates_dir = os.path.join(os.path.dirname(__file__), "frontend", "pages")

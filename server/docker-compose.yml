@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mysql-dev:
+    image: mysql:8.0
+    container_name: auth-dev-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dev_auth_db
+      MYSQL_USER: devuser
+      MYSQL_PASSWORD: devpassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - dev_mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  auth-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth-server
+    ports:
+      - "8000:8000"
+    environment:
+      # Inject environment variables; Docker Compose will pass them through
+      - ENVIRONMENT=development
+      - MYSQL_HOST=auth-dev-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=devuser
+      - MYSQL_PASSWORD=devpassword
+      - MYSQL_DB=dev_auth_db
+    depends_on:
+      - mysql-dev
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped
+
+volumes:
+  dev_mysql_data:
