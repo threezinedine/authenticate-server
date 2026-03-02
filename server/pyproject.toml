@@ -18,8 +18,8 @@ dependencies = [
     "pydantic-settings"
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "pytest",
-    "httpx"
+    "httpx>=0.28.1",
+    "pytest>=9.0.2",
 ]

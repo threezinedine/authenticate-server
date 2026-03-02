@@ -42,17 +42,21 @@ def run_cmd(command: Command, inline=False):
     cwd = os.path.join(ROOT_DIR, command.cwd)
     print(f"==> Running: {command.command}\n    in: {cwd}")
 
+    # Prevent nested `uv run` commands from throwing warnings about the parent's environment
+    env = os.environ.copy()
+    env.pop("VIRTUAL_ENV", None)
+
     # We use shell=True since command strings are provided directly from configuration
     try:
         if inline or (command.forceInline is not None and command.forceInline):
             # Run in the current terminal instance
-            subprocess.run(command.command, cwd=cwd, check=True, shell=True)
+            subprocess.run(command.command, cwd=cwd, check=True, shell=True, env=env)
         else:
             # open the new intsance of terminal first
             if os.name == "posix":
-                subprocess.run(f"gnome-terminal --working-directory={cwd} -- {command.command}", shell=True)
+                subprocess.run(f"gnome-terminal --working-directory={cwd} -- {command.command}", shell=True, env=env)
             elif os.name == "nt":
-                subprocess.run(f"cmd /k cd /d {cwd} && {command.command}", shell=True)
+                subprocess.run(f"cmd /k cd /d {cwd} && {command.command}", shell=True, env=env)
     except subprocess.CalledProcessError as e:
         print(f"==> Error: Command failed with return code {e.returncode}")
         sys.exit(e.returncode)
