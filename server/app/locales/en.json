@@ -1,0 +1,6 @@
+{
+    "SUCCESS": "Success",
+    "REGISTER_SUCCESS": "User registered successfully.",
+    "MISSING_FIELD": "Missing field",
+    "EMAIL_ALREADY_REGISTERED": "Email already registered"
+}

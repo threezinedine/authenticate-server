@@ -1,0 +1,6 @@
+{
+    "SUCCESS": "Thành công",
+    "REGISTER_SUCCESS": "Đăng ký người dùng thành công.",
+    "MISSING_FIELD": "Thiếu trường",
+    "EMAIL_ALREADY_REGISTERED": "Email đã được đăng ký"
+}

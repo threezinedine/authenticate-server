@@ -1,0 +1,6 @@
+{
+    "SUCCESS": "Éxito",
+    "REGISTER_SUCCESS": "Usuario registrado con éxito.",
+    "MISSING_FIELD": "Campo faltante",
+    "EMAIL_ALREADY_REGISTERED": "El correo electrónico ya está registrado"
+}

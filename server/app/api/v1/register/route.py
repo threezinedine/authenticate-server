@@ -3,17 +3,23 @@ from sqlalchemy.orm import Session
 from app.database.session import get_db
 from app.database.models import User, UserProfile
 from .schema import RegisterRequest, RegisterResponse
+from app.api.v1.shared.dependencies import get_translator
+from app.services.i18n import Translator
 
 router = APIRouter(prefix="/register", tags=["Registration"])
 
 @router.post("/", response_model=RegisterResponse, status_code=status.HTTP_201_CREATED)
-def register_user(request: RegisterRequest, db: Session = Depends(get_db)):
+def register_user(
+    request: RegisterRequest, 
+    db: Session = Depends(get_db),
+    translator: Translator = Depends(get_translator)
+):
     # Check if user already exists
     existing_user = db.query(User).filter(User.email == request.email).first()
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
+            detail=translator.translate("EMAIL_ALREADY_REGISTERED")
         )
     
     # Create the core user identity
@@ -37,5 +43,5 @@ def register_user(request: RegisterRequest, db: Session = Depends(get_db)):
     return RegisterResponse(
         id=new_user.id,
         email=new_user.email,
-        message="User registered successfully."
+        message=translator.translate("REGISTER_SUCCESS")
     )
