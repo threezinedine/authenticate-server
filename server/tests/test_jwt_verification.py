@@ -90,7 +90,7 @@ def test_verify_refresh_token_expired(mock_user):
 def test_verify_refresh_token_invalid_signature(mock_user):
     # Encode with wrong symmetric secret
     claims = {"sub": str(mock_user.id), "type": "refresh"}
-    forged_token = jwt.encode(claims, "completely-wrong-secret-key-123", algorithm=settings.JWT_REFRESH_ALGORITHM)
+    forged_token = jwt.encode(claims, "completely-wrong-secret-key-1234", algorithm=settings.JWT_REFRESH_ALGORITHM)
     
     with pytest.raises(jwt.InvalidSignatureError):
         verify_refresh_token(forged_token)

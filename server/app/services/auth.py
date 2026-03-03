@@ -36,16 +36,17 @@ def get_or_create_rsa_key():
 
 _private_key = get_or_create_rsa_key()
 
-def create_access_token(user, expires_delta: timedelta = timedelta(minutes=15)) -> str:
+def create_access_token(user, expires_delta: timedelta = timedelta(minutes=15), start_time: datetime | None = None) -> str:
     """Generates an RS256 asynchronous Access Token embedding the necessary user SDK claims."""
+    now = start_time or datetime.now(timezone.utc)
     claims = {
         "sub": str(user.id),
         "email": user.email,
         "first_name": user.profile.first_name if user.profile else None,
         "last_name": user.profile.last_name if user.profile else None,
         "roles": [role.name for role in getattr(user, "roles", [])],
-        "exp": datetime.now(timezone.utc) + expires_delta,
-        "iat": datetime.now(timezone.utc),
+        "exp": now + expires_delta,
+        "iat": now,
         "type": "access"
     }
     
@@ -53,12 +54,13 @@ def create_access_token(user, expires_delta: timedelta = timedelta(minutes=15)) 
     encoded_jwt = jwt.encode(claims, _private_key, algorithm=settings.JWT_ALGORITHM, headers=headers)
     return encoded_jwt
 
-def create_refresh_token(user, expires_delta: timedelta = timedelta(days=30)) -> str:
+def create_refresh_token(user, expires_delta: timedelta = timedelta(days=30), start_time: datetime | None = None) -> str:
     """Generates a long-lived HS256 refresh token strictly containing just the identity layer."""
+    now = start_time or datetime.now(timezone.utc)
     claims = {
         "sub": str(user.id),
-        "exp": datetime.now(timezone.utc) + expires_delta,
-        "iat": datetime.now(timezone.utc),
+        "exp": now + expires_delta,
+        "iat": now,
         "type": "refresh"
     }
     
