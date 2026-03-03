@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block head %}
+<!-- Base Auth Components (Loaded universally for Login, Register, Forgot Password, etc.) -->
+<link rel="stylesheet" href="/static/components/auth-layout/style.css">
+<link rel="stylesheet" href="/static/components/glass-panel/style.css">
+<!-- Page-specific Auth Head Injections -->
+{% block auth_head %}{% endblock %}
+{% endblock %}
+
+{% block content %}
+<main class="auth-layout min-vh-100">
+    <!-- Left panel: Global branding, graphic, and particles -->
+    <div class="auth-layout__brand">
+        <div class="auth-layout__particles"></div>
+        <div class="auth-layout__brand-content">
+            <div class="auth-layout__graphic">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+            </div>
+            <h1>Authentication</h1>
+            <p class="text-muted">Centralized Identity & Access Management</p>
+        </div>
+    </div>
+
+    <!-- Right panel: The injected interactive form container -->
+    <div class="auth-layout__content">
+        <div class="glass-panel">
+            <!-- Sub-pages will inject their local forms here -->
+            {% block auth_form %}{% endblock %}
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,18 +1,16 @@
-{% extends "base.html" %}
+{% extends "auth_base.html" %}
 
-{% block title %}Sign In | Auth Provider{% endblock %}
+{% block title %}Sign In{% endblock %}
 
-{% block head %}
-<!-- Login-specific CSS -->
+{% block auth_head %}
+<!-- Login-specific CSS isolated from the Layout logic -->
 <link rel="stylesheet" href="/static/pages/login/style.css">
 {% endblock %}
 
-{% block content %}
-<main class="auth-layout d-flex min-vh-100">
-    <!-- Base Layout ready for components -->
-    <div class="test-render">
-        <h1>Welcome Back</h1>
-        <p>This page safely extends base.html and inherits global fonts and jQuery!</p>
-    </div>
-</main>
+{% block auth_form %}
+<!-- Placeholder for the Glass Panel -->
+<div class="test-render">
+    <h2 class="title-glow">Sign In</h2>
+    <p>This layout is inheriting seamlessly from auth_base.html.</p>
+</div>
 {% endblock %}

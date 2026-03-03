@@ -1,0 +1,66 @@
+/* Glass Panel Container */
+.glass-panel {
+    width: 100%;
+    max-width: 450px;
+    padding: var(--space-2xl);
+
+    /* Frosted glass effect */
+    background: var(--bg-panel);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    /* Subtle 3D borders */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+
+    /* Deep shadow to lift it off the particle background */
+    box-shadow: var(--shadow-glass);
+
+    /* Positioning context for the colored glows */
+    position: relative;
+    z-index: 10;
+}
+
+/* 
+ * The opposing colored radial shadow glows. 
+ * We use pseudo-elements absolutely positioned behind the panel itself,
+ * so they bleed outwards creating the "aura" effect.
+ */
+.glass-panel::before,
+.glass-panel::after {
+    content: '';
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: -1;
+    /* Placed behind the glass itself */
+    pointer-events: none;
+    filter: blur(80px);
+    /* Massive blur for smooth aura */
+    opacity: 0.15;
+    /* Subtle intensity */
+}
+
+/* Left Aura - Orange */
+.glass-panel::before {
+    left: -10%;
+    background-color: var(--brand-accent);
+}
+
+/* Right Aura - Deep Blue/Purple */
+.glass-panel::after {
+    right: -10%;
+    background-color: #3b82f6;
+    /* Tailwind blue-500 as an accent */
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .glass-panel {
+        padding: var(--space-xl);
+    }
+}
