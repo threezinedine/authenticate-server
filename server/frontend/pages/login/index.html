@@ -1,12 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Authentication Login</title>
-</head>
-<body>
-    <h1>Login Page</h1>
-    <p>This is a simple static login page for initial testing.</p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Sign In | Auth Provider{% endblock %}
+
+{% block head %}
+<!-- Login-specific CSS -->
+<link rel="stylesheet" href="/static/pages/login/style.css">
+{% endblock %}
+
+{% block content %}
+<main class="auth-layout d-flex min-vh-100">
+    <!-- Base Layout ready for components -->
+    <div class="test-render">
+        <h1>Welcome Back</h1>
+        <p>This page safely extends base.html and inherits global fonts and jQuery!</p>
+    </div>
+</main>
+{% endblock %}

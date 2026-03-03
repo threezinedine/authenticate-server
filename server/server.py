@@ -29,11 +29,17 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+from fastapi.staticfiles import StaticFiles
+
 app.include_router(register_router, prefix="/api/v1")
 app.include_router(login_router, prefix="/api/v1")
 app.include_router(refresh_router, prefix="/api/v1")
 app.include_router(locales_router, prefix="/api/v1/locales")
 app.include_router(jwks_router)
+
+# Mount the entire frontend directory as static files to serve CSS, JS, and Images natively
+frontend_dir = os.path.join(os.path.dirname(__file__), "frontend")
+app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 
 # Point Jinja2 to the frontend pages directory
 templates_dir = os.path.join(os.path.dirname(__file__), "frontend", "pages")

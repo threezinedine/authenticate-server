@@ -22,7 +22,7 @@
     {
         "name": "start linux",
         "cwd": "server",
-        "command": "docker compose up"
+        "command": "docker compose up --build"
     },
     {
         "name": "stop linux",

@@ -1,0 +1,32 @@
+/* Inputs */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--space-md);
+}
+
+.input-group__label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.input-group__field {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    color: var(--text-main);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input-group__field:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 2px var(--brand-accent-glow);
+}
+
+.input-group__field::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}

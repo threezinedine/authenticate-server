@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Authentication System{% endblock %}</title>
+
+    <!-- Global CSS Architecture Variables & Resets -->
+    <link rel="stylesheet" href="/static/assets/global.css">
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtY3q/dKLaZz8Svo=" crossorigin="anonymous"></script>
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+    {% block content %}
+    {# Child templates will override this block #}
+    {% endblock %}
+
+    <!-- Global JS Functionality -->
+    <script src="/static/assets/main.js"></script>
+</body>
+
+</html>
