@@ -26,6 +26,7 @@ def main():
     print("==> Initializing Test Database...")
     env = os.environ.copy()
     env["ENVIRONMENT"] = "e2e"
+    env.pop("VIRTUAL_ENV", None)
     os.environ["ENVIRONMENT"] = "e2e"
     
     # We must explicitly use uv run python on the Auth Server since its dependencies are in its own pyproject.toml
