@@ -1,32 +1,185 @@
-/* Inputs */
+/* Input Group Container */
 .input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
+    position: relative;
 }
 
+/* Label */
 .input-group__label {
     font-size: var(--text-sm);
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-muted);
     margin-bottom: var(--space-xs);
+    letter-spacing: 0.5px;
+    transition: color var(--transition-fast);
 }
 
+/* Multiple Inputs Row */
+.input-group__row {
+    display: flex;
+    gap: var(--space-md);
+    width: 100%;
+}
+
+.input-group__row .input-group__wrapper {
+    flex: 1;
+}
+
+/* Input Wrapper (Holds the SVG and the Field) */
+.input-group__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border-radius: var(--radius-md);
+    /* Inherit for spotlight borders */
+}
+
+
+/* Inline SVG Icon Container */
+.input-group__icon {
+    position: absolute;
+    left: var(--space-md);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: color var(--transition-fast);
+}
+
+.input-group__icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* The actual Input Field */
 .input-group__field {
     width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-subtle);
-    border-radius: var(--radius-pill);
-    color: var(--text-main);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-}
+    /* Accommodate the left icon */
+    padding: 14px var(--space-md) 14px 45px;
 
-.input-group__field:focus {
-    border-color: var(--border-focus);
-    box-shadow: 0 0 0 2px var(--brand-accent-glow);
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+
+    font-size: var(--text-base);
+    color: var(--text-main);
+
+    /* Smooth transitions for glowing states */
+    transition: all var(--transition-normal);
 }
 
 .input-group__field::placeholder {
-    color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.15);
+}
+
+/* Focus Glow States */
+.input-group__field:focus {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-color: var(--brand-accent);
+    /* Outer Box Shadow Glow + Inner Box Shadow Depth */
+    box-shadow:
+        0 0 0 4px var(--brand-accent-glow),
+        inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* When the input is focused, light up the label and the icon! */
+.input-group__field:focus~.input-group__icon,
+/* If icon comes after field in DOM */
+.input-group__wrapper:focus-within .input-group__icon {
+    color: var(--brand-accent);
+}
+
+.input-group:focus-within .input-group__label {
+    color: var(--text-main);
+}
+
+/* ==========================================================================
+   Error States (.has-error modifier on the parent .input-group)
+   ========================================================================== */
+.input-group.has-error .input-group__field {
+    border-color: var(--sys-error);
+    background-color: rgba(239, 68, 68, 0.05);
+    /* very faint red */
+}
+
+.input-group.has-error .input-group__field:focus {
+    box-shadow:
+        0 0 0 4px rgba(239, 68, 68, 0.2),
+        /* Red glow */
+        inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.input-group.has-error .input-group__icon,
+.input-group.has-error .input-group__label {
+    color: var(--sys-error);
+}
+
+/* Validation Error Message Text */
+.input-group__error-text {
+    display: none;
+    /* hidden by default */
+    font-size: var(--text-xs);
+    color: var(--sys-error);
+    margin-top: var(--space-xs);
+    animation: fadeIn var(--transition-fast) forwards;
+}
+
+.input-group.has-error .input-group__error-text {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================================================
+   Multiple Validation Conditions List (e.g. Password rules)
+   ========================================================================== */
+.input-group__conditions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: var(--space-sm);
+    padding-left: 2px;
+}
+
+.input-group__condition {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    transition: all var(--transition-fast);
+}
+
+.input-group__condition.met {
+    color: var(--sys-success, #10b981);
+}
+
+.input-group__condition.unmet {
+    color: var(--text-muted);
+}
+
+.input-group__condition .condition-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+}
+
+.input-group__condition .condition-icon svg {
+    width: 100%;
+    height: 100%;
 }
