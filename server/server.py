@@ -8,6 +8,7 @@ from app.api.v1.register.route import router as register_router
 from app.api.v1.login.route import router as login_router
 from app.api.v1.refresh.route import router as refresh_router
 from app.api.v1.locales.route import router as locales_router
+from app.api.well_known.route import router as jwks_router
 from app.config import settings
 import os
 
@@ -32,6 +33,7 @@ app.include_router(register_router, prefix="/api/v1")
 app.include_router(login_router, prefix="/api/v1")
 app.include_router(refresh_router, prefix="/api/v1")
 app.include_router(locales_router, prefix="/api/v1/locales")
+app.include_router(jwks_router)
 
 # Point Jinja2 to the frontend pages directory
 templates_dir = os.path.join(os.path.dirname(__file__), "frontend", "pages")

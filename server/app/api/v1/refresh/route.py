@@ -34,8 +34,8 @@ def refresh_token_rotation(
         
     user = db.query(User).filter(User.id == user_id).first()
     
-    # Token cryptographic signature was fully valid, but user doesn't exist anymore
-    if not user:
+    # Token cryptographic signature was fully valid, but user doesn't exist anymore or is deactivated
+    if not user or not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail=translator.translate("INVALID_TOKEN")

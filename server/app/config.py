@@ -27,6 +27,8 @@ class Settings(BaseSettings):
         """
         if self.ENVIRONMENT == "test":
             return "sqlite+pysqlite:///:memory:"
+        if self.ENVIRONMENT == "e2e":
+            return "sqlite+pysqlite:///e2e_test.db"
         return f"mysql+pymysql://{self.MYSQL_USER}:{self.MYSQL_PASSWORD}@{self.MYSQL_HOST}:{self.MYSQL_PORT}/{self.MYSQL_DB}"
     
     model_config = SettingsConfigDict(

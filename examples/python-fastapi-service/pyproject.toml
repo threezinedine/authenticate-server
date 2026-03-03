@@ -1,0 +1,14 @@
+[project]
+name = "python-fastapi-service-example"
+version = "0.1.0"
+description = "Dummy Target Microservice for E2E testing."
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "httpx",
+    "ntt-client-auth"
+]
+
+[tool.uv.sources]
+ntt-client-auth = { path = "../../sdk-python" }

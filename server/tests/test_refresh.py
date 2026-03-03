@@ -107,3 +107,56 @@ def test_missing_payload(client):
     assert response.status_code == 422
     assert response.json()["detail"][0]["type"] == "missing"
     assert response.json()["detail"][0]["loc"] == ["body", "refresh_token"]
+
+def test_refresh_user_deleted(client, dummy_refresh_token, db_session):
+    # The token is cryptographically valid, but the user is hard-deleted from DB
+    user = db_session.query(User).filter(User.email == BASE_USER["email"]).first()
+    db_session.delete(user)
+    db_session.commit()
+    
+    payload = {"refresh_token": dummy_refresh_token}
+    response = client.post("/api/v1/refresh/", json=payload)
+    
+    assert response.status_code == 401
+    t = Translator("en")
+    assert response.json()["detail"] == t.translate("INVALID_TOKEN")
+
+def test_refresh_user_deactivated(client, dummy_refresh_token, db_session):
+    # The token is valid, but the user was banned/deactivated
+    user = db_session.query(User).filter(User.email == BASE_USER["email"]).first()
+    user.is_active = False
+    db_session.commit()
+    
+    payload = {"refresh_token": dummy_refresh_token}
+    response = client.post("/api/v1/refresh/", json=payload)
+    
+    assert response.status_code == 401
+    t = Translator("en")
+    assert response.json()["detail"] == t.translate("INVALID_TOKEN")
+
+def test_refresh_missing_sub_claim(client):
+    from app.config import settings
+    # Encode a totally valid token but missing the "sub" claim
+    claims = {
+        "exp": datetime.now(timezone.utc) + timedelta(days=30),
+        "iat": datetime.now(timezone.utc),
+        "type": "refresh"
+    }
+    missing_sub_token = jwt.encode(claims, settings.JWT_REFRESH_SECRET_KEY, algorithm=settings.JWT_REFRESH_ALGORITHM)
+    
+    payload = {"refresh_token": missing_sub_token}
+    response = client.post("/api/v1/refresh/", json=payload)
+    
+    assert response.status_code == 401
+    t = Translator("en")
+    assert response.json()["detail"] == t.translate("INVALID_TOKEN")
+
+def test_refresh_malformed_token(client):
+    # Pass arbitrary malicious string instead of a 3-part JWT
+    payload = {"refresh_token": "Bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"}
+    response = client.post("/api/v1/refresh/", json=payload)
+    
+    # Ideally should fail graceful verification
+    assert response.status_code == 401
+    t = Translator("en")
+    assert response.json()["detail"] == t.translate("INVALID_TOKEN")

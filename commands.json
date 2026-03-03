@@ -60,5 +60,11 @@
         "cwd": "server",
         "command": "uv run pytest tests",
         "forceInline": true
+    },
+    {
+        "name": "test sdk",
+        "cwd": "examples/python-fastapi-service",
+        "command": "uv run run_e2e_python.py",
+        "forceInline": true
     }
 ]
