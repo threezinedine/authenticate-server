@@ -7,15 +7,17 @@
     "example": "examples"
   },
   "scripts": {
-    "test:e2e:chrome": "cypress run --browser chrome",
-    "test:e2e:firefox": "cypress run --browser firefox",
-    "test:e2e:edge": "cypress run --browser edge",
-    "dev:e2e": "cypress open"
+    "start:server": "cd server && uv run server.py",
+    "test:e2e:chrome": "start-server-and-test start:server http://127.0.0.1:8000/docs 'cypress run --browser chrome'",
+    "test:e2e:firefox": "start-server-and-test start:server http://127.0.0.1:8000/docs 'cypress run --browser firefox'",
+    "test:e2e:edge": "start-server-and-test start:server http://127.0.0.1:8000/docs 'cypress run --browser edge'",
+    "dev:e2e": "start-server-and-test start:server http://127.0.0.1:8000/docs 'cypress open'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^15.11.0"
+    "cypress": "^15.11.0",
+    "start-server-and-test": "^2.1.5"
   }
 }

@@ -71,3 +71,5 @@ coverage/
 
 # Databases
 *.sqlite3
+server/dev_database.db
+server/e2e_test.db

@@ -7,7 +7,7 @@
     {
         "name": "run server",
         "cwd": "server",
-        "command": "ENVIRONMENT=development && uv run server.py"
+        "command": "uv run server.py"
     },
     {
         "name": "start windows",
