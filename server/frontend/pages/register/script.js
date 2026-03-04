@@ -46,7 +46,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const divider = createDivider("OR");
 
     // 3. Define the async API Handler for Registration
+    // 3. Define the async API Handler for Registration
     const handleRegisterSubmit = async (payload) => {
+        let hasErrors = false;
+
+        // Reset old errors visually on subcomponents
+        const allGroups = [nameInput, emailInput, passwordInput];
+        allGroups.forEach(group => group.classList.remove('has-error'));
+
+        // Client-side validation: Empty Check
+        if (!payload.full_name || payload.full_name.trim() === '') {
+            nameInput.classList.add('has-error');
+            hasErrors = true;
+        }
+
+        if (!payload.email || payload.email.trim() === '') {
+            emailInput.classList.add('has-error');
+            hasErrors = true;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+            // Client-side validation: Malformed Email
+            emailInput.classList.add('has-error');
+            hasErrors = true;
+        }
+
+        if (!payload.password || payload.password.trim() === '') {
+            passwordInput.classList.add('has-error');
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            // Throwing an error stops the toggleSubmitting loader sequence in auth-form.js
+            throw new Error('ValidationFailed');
+        }
+
         try {
             // Simulated network latency
             await new Promise(r => setTimeout(r, 1000));

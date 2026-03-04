@@ -42,6 +42,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Define the async API Handler
     const handleLoginSubmit = async (payload) => {
+        let hasErrors = false;
+
+        // Reset old errors visually on subcomponents
+        const allGroups = [emailInput, passwordInput];
+        allGroups.forEach(group => group.classList.remove('has-error'));
+
+        // Client-side validation: Empty Check
+        if (!payload.email || payload.email.trim() === '') {
+            emailInput.classList.add('has-error');
+            hasErrors = true;
+        }
+
+        if (!payload.password || payload.password.trim() === '') {
+            passwordInput.classList.add('has-error');
+            hasErrors = true;
+        }
+
+        if (hasErrors) {
+            // Throwing an error stops the toggleSubmitting loader sequence in auth-form.js
+            throw new Error('ValidationFailed');
+        }
+
         try {
             // Simulated network latency
             await new Promise(r => setTimeout(r, 1000));
@@ -55,13 +77,28 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 const errorData = await response.json();
                 authForm.setGlobalError(errorData.detail || 'Login failed.');
-                return;
+                // Re-throw so auth-form.js catch block calls toggleSubmitting(false) to unlock spinner
+                throw new Error(errorData.detail || 'Login failed.');
             }
 
             const data = await response.json();
-            // TODO: Navigate to dashboard /admin
-            window.location.href = '/admin';
+
+            // Handle Successful Login specific caching
+            if (data.access_token) {
+                localStorage.setItem('access_token', data.access_token);
+            }
+
+            // Navigate to dashboard /admin
+            setTimeout(() => {
+                window.location.href = '/admin';
+            }, 10);
         } catch (error) {
+            // Only show "network error" for true fetch failures (offline, DNS, etc.)
+            // API errors (4xx/5xx) are handled above and already have their message set.
+            if (!error.message.includes('Failed to fetch')) {
+                // Re-throw so auth-form.js's outer catch can call toggleSubmitting(false)
+                throw error;
+            }
             authForm.setGlobalError('Network error connecting to the authentication server.');
         }
     };

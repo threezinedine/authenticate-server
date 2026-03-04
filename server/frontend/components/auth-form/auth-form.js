@@ -14,6 +14,7 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
     const form = document.createElement('form');
     if (id) form.id = id;
     form.className = 'auth-form';
+    form.setAttribute('novalidate', '');
 
     const content = document.createElement('div');
     content.className = 'auth-form__content';
@@ -36,7 +37,7 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
         if (msg) {
             if (!errorBanner) {
                 errorBanner = document.createElement('div');
-                errorBanner.className = 'auth-form__global-error';
+                errorBanner.className = 'auth-form__error-banner';
                 form.insertBefore(errorBanner, form.firstChild);
             }
             errorBanner.textContent = msg;
@@ -55,10 +56,12 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
 
         if (isSubmitting) {
             form.classList.add('is-submitting');
+            submitBtn.classList.add('btn--loading');
             submitBtn.disabled = true;
             if (textNode) textNode.innerHTML = '<span class="auth-form__loader"></span>';
         } else {
             form.classList.remove('is-submitting');
+            submitBtn.classList.remove('btn--loading');
             submitBtn.disabled = false;
             if (textNode) textNode.textContent = submitLabel;
         }
@@ -80,8 +83,13 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
             try {
                 toggleSubmitting(true);
                 await onSubmit(payload);
-            } finally {
+            } catch (err) {
+                // If it's an API error or validation fail, stop spinning so user can fix it
                 toggleSubmitting(false);
+
+                if (err.message !== 'ValidationFailed') {
+                    console.error("Form Submission Error: ", err);
+                }
             }
         }
     });
