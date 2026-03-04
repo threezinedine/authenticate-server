@@ -1,34 +1,137 @@
-/* Buttons */
+@import '../../assets/global.css';
+
+/* Base Button Styles */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-sm) var(--space-lg);
-    border-radius: var(--radius-pill);
+    gap: var(--space-md);
+
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
+    font-size: var(--text-base);
+    letter-spacing: 0.5px;
+
+    border: none;
+    border-radius: 12px;
+    padding: 14px 32px;
     cursor: pointer;
+    outline: none;
+    position: relative;
+    overflow: hidden;
     transition: all var(--transition-normal);
+    width: 100%;
+    /* Default block behavior for auth forms */
 }
 
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn__icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* ==========================================================================
+   Primary Button Variation (.btn--primary)
+   ========================================================================== */
 .btn--primary {
-    background-color: var(--brand-accent);
-    color: var(--text-main);
-    box-shadow: var(--shadow-accent);
+    /* Rich, deep gradient to simulate the 3D surface */
+    background: linear-gradient(180deg, #ff8c00 0%, #db5a00 100%);
+    color: #ffffff;
+    /* Multilayered shadows: 
+       1. Soft dark inner shadow for bottom edge depth
+       2. Subtle white inner top edge
+       3. Warm orange outer glow
+    */
+    box-shadow:
+        inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+        inset 0 1px 2px rgba(255, 255, 255, 0.2),
+        0 8px 24px rgba(219, 90, 0, 0.4),
+        0 4px 8px rgba(219, 90, 0, 0.3);
 }
 
 .btn--primary:hover {
-    background-color: var(--brand-accent-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px 0 rgba(255, 123, 0, 0.6);
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+        inset 0 1px 2px rgba(255, 255, 255, 0.25),
+        0 12px 28px rgba(219, 90, 0, 0.5),
+        0 6px 12px rgba(219, 90, 0, 0.4);
+    filter: brightness(1.05);
 }
 
-.btn--outline {
-    background-color: transparent;
-    border: 1px solid var(--border-subtle);
+.btn--primary:active {
+    transform: translateY(1px);
+    box-shadow:
+        inset 0 2px 6px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(219, 90, 0, 0.4);
+}
+
+/* The tight, beautiful glass reflection exactly top-center (The highlight point) */
+.btn__reflection {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    /* Soft ambient spread along the top edge */
+    background: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none;
+}
+
+/* The intense bright point right at the center of the reflection */
+.btn__reflection::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 15%;
+    /* Much tighter, creating the "point" effect */
+    height: 2px;
+    background: radial-gradient(ellipse 50% 100% at 50% 0%, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
+    /* Gives the point a slight halo */
+}
+
+/* ==========================================================================
+   Social/Outline Button Variation (.btn--social)
+   ========================================================================== */
+.btn--social {
+    background: rgba(255, 255, 255, 0.03);
     color: var(--text-main);
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    text-transform: none;
+    /* Usually social buttons are Title Case */
+    font-weight: 500;
 }
 
-.btn--outline:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    border-color: var(--text-muted);
+.btn--social .btn__icon svg {
+    /* To ensure colored SVGs look correct if they are embedded */
+    fill: currentColor;
+}
+
+.btn--social:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn--social:active {
+    transform: translateY(1px);
+    background: rgba(255, 255, 255, 0.05);
 }

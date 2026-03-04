@@ -1,4 +1,5 @@
 import './style.css';
+import { createButton } from '../button/button';
 
 /**
  * createAuthForm creates a form container that handles async submissions,
@@ -20,10 +21,14 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
     children.forEach(child => content.appendChild(child));
     form.appendChild(content);
 
-    const submitBtn = document.createElement('button');
-    submitBtn.type = 'submit';
-    submitBtn.className = 'btn-primary';
-    submitBtn.textContent = submitLabel;
+    const submitBtn = createButton({
+        label: submitLabel,
+        variant: 'primary',
+        type: 'submit'
+    });
+
+    // Override the button implementation's root element to have full block behavior for the form
+    submitBtn.style.width = '100%';
     form.appendChild(submitBtn);
 
     let errorBanner = null;
@@ -47,14 +52,16 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
     };
 
     const toggleSubmitting = (isSubmitting) => {
+        const textNode = submitBtn.querySelector('.btn__text');
+
         if (isSubmitting) {
             form.classList.add('is-submitting');
             submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="auth-form__loader"></span>';
+            if (textNode) textNode.innerHTML = '<span class="auth-form__loader"></span>';
         } else {
             form.classList.remove('is-submitting');
             submitBtn.disabled = false;
-            submitBtn.textContent = submitLabel;
+            if (textNode) textNode.textContent = submitLabel;
         }
 
         const inputs = form.querySelectorAll('input, select, textarea');

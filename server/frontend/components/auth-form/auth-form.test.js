@@ -29,7 +29,7 @@ describe('Auth Form Component', () => {
 
         const submitBtn = form.querySelector('button[type="submit"]');
         expect(submitBtn).toBeTruthy();
-        expect(submitBtn.textContent).toBe('Log In');
+        expect(submitBtn.querySelector('.btn__text').textContent).toBe('Log In');
     });
 
     it('prevents default HTTP reload behavior on submit', () => {
