@@ -1,0 +1,43 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Dashboard | NTT{% endblock %}
+
+{% block head_extensions %}
+<link rel="stylesheet" href="/static/components/auth-layout/style.css">
+<link rel="stylesheet" href="/static/pages/admin/style.css">
+{% endblock %}
+
+{% block body %}
+<div class="admin-layout">
+    <!-- Sliding Sidebar Container -->
+    <nav class="admin-sidebar" id="adminSidebar">
+        <div class="glass-panel admin-sidebar__panel">
+            <!-- Sidebar content will go here -->
+            <div style="padding: 2rem; color: var(--text-muted);">
+                Sidebar Region
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+        <!-- Topbar Region -->
+        <header class="admin-topbar">
+            <div style="padding: 1rem; color: var(--text-muted); border-bottom: 1px solid var(--border-subtle);">
+                Topbar Region
+            </div>
+        </header>
+
+        <!-- Dynamic Content Region -->
+        <div class="admin-content">
+            <div style="padding: 2rem; color: var(--text-muted);">
+                Main Content Region (Charts, Metrics, Data Lists)
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/pages/admin/script.js"></script>
+{% endblock %}
