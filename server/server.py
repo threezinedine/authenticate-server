@@ -53,6 +53,9 @@ def main():
 def login_page(request: Request):
     return templates.TemplateResponse("login/index.html", {"request": request})
 
+@app.get("/register")
+def register_page(request: Request):
+    return templates.TemplateResponse("register/index.html", {"request": request})
 
 if __name__ == "__main__":
     import uvicorn

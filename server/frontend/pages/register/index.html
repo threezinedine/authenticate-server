@@ -1,0 +1,33 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block auth_head %}
+<!-- Component CSS Loading (Shared with Login to ensure 0 layout duplication) -->
+<link rel="stylesheet" href="/static/components/button/style.css">
+<link rel="stylesheet" href="/static/components/input-group/style.css">
+<link rel="stylesheet" href="/static/components/divider/style.css">
+<link rel="stylesheet" href="/static/components/auth-form/style.css">
+<!-- Registration Custom CSS if needed -->
+<link rel="stylesheet" href="/static/pages/register/style.css">
+{% endblock %}
+
+{% block auth_form %}
+<div class="test-render">
+    <h1 class="title-glow" style="margin-bottom: var(--space-xs); text-align: center;">SIGN UP</h1>
+    <p class="text-muted" style="text-align: center; margin-bottom: var(--space-xl);">Create your centralized NTT
+        Account</p>
+
+    <!-- Javascript will rigidly inject the form components here -->
+    <div id="register-form-container"></div>
+
+    <div style="text-align: center; margin-top: var(--space-lg);">
+        <a href="/login" class="text-link">Already have an account? Sign In</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block page_scripts %}
+<!-- Load Component Logic and Initialize Registration Form -->
+<script type="module" src="/static/pages/register/script.js"></script>
+{% endblock %}
