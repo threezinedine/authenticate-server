@@ -1,19 +1,21 @@
-{% extends "auth_base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Dashboard | NTT{% endblock %}
 
-{% block head_extensions %}
-<link rel="stylesheet" href="/static/components/auth-layout/style.css">
+{% block head %}
+<link rel="stylesheet" href="/static/components/toast/style.css">
 <link rel="stylesheet" href="/static/pages/admin/style.css">
 {% endblock %}
 
-{% block body %}
-<div class="admin-layout">
-    <!-- Sliding Sidebar Container -->
+{% block content %}
+<div class="admin-layout" id="adminLayout">
+    <!-- Sliding Sidebar -->
     <nav class="admin-sidebar" id="adminSidebar">
-        <div class="glass-panel admin-sidebar__panel">
-            <!-- Sidebar content will go here -->
-            <div style="padding: 2rem; color: var(--text-muted);">
+        <div class="admin-sidebar__panel">
+            <div class="admin-sidebar__logo">
+                <img src="/static/assets/ntt-logo.png" alt="NTT Logo" />
+            </div>
+            <div class="admin-sidebar__nav">
                 Sidebar Region
             </div>
         </div>
@@ -21,16 +23,16 @@
 
     <!-- Main Content Area -->
     <main class="admin-main">
-        <!-- Topbar Region -->
+        <!-- Topbar -->
         <header class="admin-topbar">
-            <div style="padding: 1rem; color: var(--text-muted); border-bottom: 1px solid var(--border-subtle);">
+            <div class="admin-topbar__inner">
                 Topbar Region
             </div>
         </header>
 
-        <!-- Dynamic Content Region -->
+        <!-- Dynamic Content -->
         <div class="admin-content">
-            <div style="padding: 2rem; color: var(--text-muted);">
+            <div class="admin-content__placeholder">
                 Main Content Region (Charts, Metrics, Data Lists)
             </div>
         </div>
@@ -38,6 +40,6 @@
 </div>
 {% endblock %}
 
-{% block scripts %}
-<script src="/static/pages/admin/script.js"></script>
+{% block page_scripts %}
+<script type="module" src="/static/pages/admin/script.js"></script>
 {% endblock %}
