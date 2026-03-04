@@ -1,0 +1,184 @@
+/* Global Container */
+.toast-container {
+    position: fixed;
+    bottom: var(--space-xl);
+    right: var(--space-xl);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    pointer-events: none;
+    /* Let clicks pass through container */
+}
+
+/* Individual Toast Item (Extending the glass-panel aesthetic conceptually) */
+.toast-item {
+    background: rgba(10, 10, 11, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    pointer-events: auto;
+    /* Re-enable clicks for items */
+    min-width: 320px;
+    max-width: 480px;
+    color: var(--text-main);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+
+    /* Elegant slide-in animation */
+    animation: toastSlideIn var(--transition-normal) cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Specific exit animation class toggled by JS */
+.toast-item.toast-item--hiding {
+    animation: toastSlideOut var(--transition-fast) ease-in forwards;
+}
+
+/* Severity Accents */
+.toast-item--success {
+    border-left: 4px solid var(--sys-success);
+}
+
+.toast-item--success .toast-item__icon svg {
+    color: var(--sys-success);
+}
+
+.toast-item--success .toast-item__progress-bar {
+    background: var(--sys-success);
+    box-shadow: 0 0 8px var(--sys-success);
+}
+
+.toast-item--error {
+    border-left: 4px solid var(--sys-error);
+}
+
+.toast-item--error .toast-item__icon svg {
+    color: var(--sys-error);
+}
+
+.toast-item--error .toast-item__progress-bar {
+    background: var(--sys-error);
+    box-shadow: 0 0 8px var(--sys-error);
+}
+
+.toast-item--warn {
+    border-left: 4px solid var(--sys-warning);
+}
+
+.toast-item--warn .toast-item__icon svg {
+    color: var(--sys-warning);
+}
+
+.toast-item--warn .toast-item__progress-bar {
+    background: var(--sys-warning);
+    box-shadow: 0 0 8px var(--sys-warning);
+}
+
+.toast-item--info {
+    border-left: 4px solid var(--sys-info);
+}
+
+.toast-item--info .toast-item__icon svg {
+    color: var(--sys-info);
+}
+
+.toast-item--info .toast-item__progress-bar {
+    background: var(--sys-info);
+    box-shadow: 0 0 8px var(--sys-info);
+}
+
+/* Time Slider (Progress Bar) */
+.toast-item__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+.toast-item__progress-bar {
+    height: 100%;
+    width: 100%;
+    animation-name: toastProgress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+    transform-origin: left;
+}
+
+/* Content layout */
+.toast-item__icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.toast-item__content {
+    flex-grow: 1;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: var(--leading-snug);
+    word-break: break-word;
+}
+
+/* Close Button Override */
+.toast-item__close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    flex-shrink: 0;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    transition: color var(--transition-fast) ease, background var(--transition-fast) ease;
+}
+
+.toast-item__close:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Keyframes */
+@keyframes toastSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.9);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}
+
+@keyframes toastSlideOut {
+    0% {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(100px) scale(0.9);
+    }
+}
+
+@keyframes toastProgress {
+    0% {
+        transform: scaleX(1);
+    }
+
+    100% {
+        transform: scaleX(0);
+    }
+}
