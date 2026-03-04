@@ -2,6 +2,7 @@ import { createAuthForm } from '/static/components/auth-form/auth-form.js';
 import { createInputGroup } from '/static/components/input-group/input-group.js';
 import { createButton } from '/static/components/button/button.js';
 import { createDivider } from '/static/components/divider/divider.js';
+import { publishToast } from '/static/components/toast/toast.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Loadeded")
@@ -77,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 const errorData = await response.json();
                 authForm.setGlobalError(errorData.detail || 'Login failed.');
+                publishToast({ msg: errorData.detail || 'Login failed.', type: 'error', duration: 5000 });
                 // Re-throw so auth-form.js catch block calls toggleSubmitting(false) to unlock spinner
                 throw new Error(errorData.detail || 'Login failed.');
             }
@@ -88,10 +90,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem('access_token', data.access_token);
             }
 
+            publishToast({ msg: 'Authentication successful! Redirecting...', type: 'success', duration: 2500 });
+
             // Navigate to dashboard /admin
             setTimeout(() => {
                 window.location.href = '/admin';
-            }, 10);
+            }, 1000);
         } catch (error) {
             // Only show "network error" for true fetch failures (offline, DNS, etc.)
             // API errors (4xx/5xx) are handled above and already have their message set.
@@ -100,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw error;
             }
             authForm.setGlobalError('Network error connecting to the authentication server.');
+            publishToast({ msg: 'Network error connecting to the authentication server.', type: 'error', duration: 5000 });
         }
     };
 

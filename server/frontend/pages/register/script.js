@@ -2,6 +2,7 @@ import { createAuthForm } from '/static/components/auth-form/auth-form.js';
 import { createInputGroup } from '/static/components/input-group/input-group.js';
 import { createButton } from '/static/components/button/button.js';
 import { createDivider } from '/static/components/divider/divider.js';
+import { publishToast } from '/static/components/toast/toast.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('register-form-container');
@@ -92,13 +93,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) {
                 const errorData = await response.json();
                 authForm.setGlobalError(errorData.detail || 'Registration failed. Try again.');
+                publishToast({ msg: errorData.detail || 'Registration failed. Try again.', type: 'error', duration: 6000 });
                 return;
             }
 
+            publishToast({ msg: 'Account successfully registered!', type: 'success', duration: 2500 });
+
             // Successfully registered, ideally auto-login or redirect to /login
-            window.location.href = '/login?registered=true';
+            setTimeout(() => {
+                window.location.href = '/login?registered=true';
+            }, 1000);
         } catch (error) {
             authForm.setGlobalError('Network error connecting to the authentication server.');
+            publishToast({ msg: 'Network error connecting to the authentication server.', type: 'error', duration: 5000 });
         }
     };
 

@@ -1,31 +1,33 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const path = require('path');
 
 /** @type { import('@storybook/html-vite').StorybookConfig } */
 const config = {
-  "stories": [
-    "../components/**/*.mdx",
-    "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)"
+  stories: [
+    '../components/**/*.mdx',
+    '../components/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
-  "addons": [
-    "@chromatic-com/storybook",
-    "@storybook/addon-vitest",
-    "@storybook/addon-a11y",
-    "@storybook/addon-docs"
+  addons: [
+    '@chromatic-com/storybook',
+    '@storybook/addon-vitest',
+    '@storybook/addon-a11y',
+    '@storybook/addon-docs',
   ],
-  "framework": "@storybook/html-vite",
+  staticDirs: [
+    { from: '../components', to: '/static/components' },
+    { from: '../assets', to: '/static/assets' },
+    { from: '../pages', to: '/static/pages' },
+  ],
+  framework: '@storybook/html-vite',
   async viteFinal(config) {
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
-      // Map '/static' (the FastAPI static URL prefix) to the frontend root so that
-      // absolute imports like '/static/components/button/button.js' resolve correctly
+      // Map '/static' (FastAPI static prefix) → frontend root so that
+      // JS imports like '/static/components/button/button.js' resolve correctly.
       '/static': path.resolve(__dirname, '..'),
     };
     return config;
-  }
+  },
 };
-export default config;
+
+module.exports = config;

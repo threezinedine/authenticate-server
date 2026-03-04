@@ -53,6 +53,11 @@ describe('Registration Page Scenarios', () => {
         cy.get('.auth-form__error-banner')
             .should('be.visible')
             .and('contain', 'Invalid data provided in payload');
+
+        // Assert the floating toast notification fires concurrently
+        cy.get('.toast-item--error')
+            .should('be.visible')
+            .and('contain', 'Invalid data provided in payload');
     });
 
     it('displays global red banner "Account already exists" on API Conflict', () => {
@@ -69,6 +74,10 @@ describe('Registration Page Scenarios', () => {
         cy.wait('@registerConflict');
 
         cy.get('.auth-form__error-banner')
+            .should('be.visible')
+            .and('contain', 'Account already exists');
+
+        cy.get('.toast-item--error')
             .should('be.visible')
             .and('contain', 'Account already exists');
     });
@@ -116,6 +125,9 @@ describe('Registration Page Scenarios', () => {
         cy.get('button[type="submit"]').click();
 
         cy.wait('@registerSuccess');
+
+        // Assert a success toast notifies the user before redirection
+        cy.get('.toast-item--success').should('be.visible');
 
         // Assert final redirection logic
         cy.url().should('include', '/login?registered=true');

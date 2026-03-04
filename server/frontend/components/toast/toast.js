@@ -59,27 +59,30 @@ export function publishToast({ msg, type = 'info', duration = 5000 }) {
     // 3. Append to container (triggers slide-in animation via CSS)
     container.appendChild(toastItem);
 
+    const itemRemoveFnc = () => {
+        container.removeChild(toastItem);
+    }
+
     // 4. Handle Removal Logic
     let removeTimeout;
 
     const removeToast = () => {
         // Clear the timeout to prevent dual execution if closed manually right before timeout
-        if (removeTimeout) clearTimeout(removeTimeout);
+        if (removeTimeout) {
+            itemRemoveFnc();
+            clearTimeout(removeTimeout);
+        }
 
         toastItem.classList.add('toast-item--hiding');
 
         // Wait for CSS slide-out animation to finish before destroying DOM node
         toastItem.addEventListener('animationend', () => {
-            if (toastItem.parentNode) {
-                toastItem.parentNode.removeChild(toastItem);
-            }
+            itemRemoveFnc();
         });
 
         // Fallback for tests environments ignoring animations
-        if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'test') {
-            if (toastItem.parentNode) {
-                toastItem.parentNode.removeChild(toastItem);
-            }
+        if (typeof window !== 'undefined' && window.__TEST_MODE__) {
+            itemRemoveFnc();
         }
     };
 

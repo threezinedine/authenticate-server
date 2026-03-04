@@ -14,6 +14,9 @@ describe('Toast Component', () => {
         container.className = 'toast-container'; // Global container where items are mounted
         document.body.appendChild(container);
 
+        // Tell components that we are isolated in a test context
+        window.__TEST_MODE__ = true;
+
         // 2. Intercept native setTimeout for predictable duration testing
         jest.useFakeTimers();
     });

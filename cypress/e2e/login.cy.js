@@ -56,8 +56,13 @@ describe('Login Page Scenarios', () => {
 
         cy.wait('@unauthorizedLogin');
 
-        // Verify the injected banner
+        // Verify the injected banner and the floating toast notification
         cy.get('.auth-form__error-banner')
+            .should('be.visible')
+            .and('contain', 'Incorrect email or password');
+
+        // The robust global toast notification should also fire for API errors
+        cy.get('.toast-item--error')
             .should('be.visible')
             .and('contain', 'Incorrect email or password');
     });
@@ -107,6 +112,9 @@ describe('Login Page Scenarios', () => {
 
         // Confirm JWT caching
         cy.window().its('localStorage').invoke('getItem', 'access_token').should('eq', 'fake-jwt-token-123');
+
+        // Assert success toast appears acknowledging the backend response
+        cy.get('.toast-item--success').should('be.visible');
 
         // Confirm redirect to /admin
         cy.url().should('include', '/admin');
