@@ -1,5 +1,3 @@
-import './style.css';
-
 export const createInputGroup = ({ label, type = 'text', placeholder, iconSvg, errorMessage, onChange, inputs, conditions }) => {
     // 1. Create Main Container
     const container = document.createElement('div');

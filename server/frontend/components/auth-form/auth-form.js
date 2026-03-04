@@ -1,5 +1,4 @@
-import './style.css';
-import { createButton } from '../button/button';
+import { createButton } from '/static/components/button/button.js';
 
 /**
  * createAuthForm creates a form container that handles async submissions,

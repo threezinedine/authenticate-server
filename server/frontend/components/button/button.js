@@ -1,5 +1,3 @@
-import './style.css';
-
 export const createButton = ({ label, variant = 'primary', iconSvg, onClick, type = 'button', disabled = false }) => {
     const btn = document.createElement('button');
     btn.type = type;

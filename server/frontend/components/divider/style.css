@@ -1,0 +1,24 @@
+@import '../../assets/global.css';
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+    margin: var(--space-lg) 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.divider span {
+    padding: 0 var(--space-md);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
