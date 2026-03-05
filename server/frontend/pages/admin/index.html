@@ -4,22 +4,15 @@
 
 {% block head %}
 <link rel="stylesheet" href="/static/components/toast/style.css">
+<link rel="stylesheet" href="/static/components/sidemenu-item/style.css">
+<link rel="stylesheet" href="/static/components/sidemenu/style.css">
 <link rel="stylesheet" href="/static/pages/admin/style.css">
 {% endblock %}
 
 {% block content %}
 <div class="admin-layout" id="adminLayout">
-    <!-- Sliding Sidebar -->
-    <nav class="admin-sidebar" id="adminSidebar">
-        <div class="admin-sidebar__panel">
-            <div class="admin-sidebar__logo">
-                <img src="/static/assets/ntt-logo.png" alt="NTT Logo" />
-            </div>
-            <div class="admin-sidebar__nav">
-                Sidebar Region
-            </div>
-        </div>
-    </nav>
+    <!-- Left Sidebar Mounting Point -->
+    <div id="adminSidebarContainer" style="display: contents;"></div>
 
     <!-- Main Content Area -->
     <main class="admin-main">

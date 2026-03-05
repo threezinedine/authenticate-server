@@ -1,0 +1,138 @@
+.sidemenu {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 100vh;
+    width: 260px;
+    /* Expanded default */
+    background: rgba(10, 10, 11, 0.4);
+    /* Dark charcoal, glassmorphic */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle border */
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    z-index: 50;
+    /* Above regular content */
+}
+
+/* --- Collapsed State --- */
+.sidemenu--collapsed {
+    width: 80px;
+    /* Collapsed default */
+}
+
+/* Profile Section */
+.sidemenu__profile {
+    display: flex;
+    align-items: center;
+    padding: var(--space-xl) var(--space-lg) var(--space-md);
+    gap: var(--space-md);
+    min-height: 80px;
+    border-bottom: 1px solid transparent;
+    /* Keeps spacing stable when blurring */
+}
+
+.sidemenu__avatar-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-secondary);
+}
+
+.sidemenu__avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.sidemenu__profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+.sidemenu--collapsed .sidemenu__profile-info {
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    /* Take out of flow to avoid stretching sideways */
+}
+
+.sidemenu__profile-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.2;
+}
+
+.sidemenu__profile-role {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* Navigation Section */
+.sidemenu__nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-md) var(--space-sm);
+    gap: var(--space-sm);
+    overflow-y: auto;
+}
+
+/* Custom minimal scrollbar */
+.sidemenu__nav::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidemenu__nav::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+/* Footer Section */
+.sidemenu__footer {
+    padding: var(--space-md) var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    /* Subtle separation */
+}
+
+.sidemenu__toggle-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 1000px;
+    /* Pill shape */
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidemenu__toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+/* When collapsed, pill shrinks to a circle proportionally */
+.sidemenu--collapsed .sidemenu__toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}

@@ -10,6 +10,8 @@ import '../components/glass-panel/style.css';
 import '../components/title-glow/style.css';
 import '../components/auth-layout/style.css';
 import '../components/toast/style.css';
+import '../components/sidemenu-item/style.css';
+import '../components/sidemenu/style.css';
 
 /** @type { import('@storybook/html-vite').Preview } */
 const preview = {
