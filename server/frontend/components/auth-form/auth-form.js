@@ -37,7 +37,7 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
         if (msg) {
             if (!errorBanner) {
                 errorBanner = document.createElement('div');
-                errorBanner.className = 'auth-form__error-banner';
+                errorBanner.className = 'auth-form__global-error';
                 form.insertBefore(errorBanner, form.firstChild);
             }
             errorBanner.textContent = msg;
@@ -83,6 +83,7 @@ export const createAuthForm = ({ id, onSubmit, submitLabel = 'Submit', children 
             try {
                 toggleSubmitting(true);
                 await onSubmit(payload);
+                toggleSubmitting(false);
             } catch (err) {
                 // If it's an API error or validation fail, stop spinning so user can fix it
                 toggleSubmitting(false);

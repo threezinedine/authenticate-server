@@ -36,11 +36,11 @@ describe('Login Page Scenarios', () => {
         cy.wait('@failedLogin');
 
         // Banner should appear with the error message
-        cy.get('.auth-form__error-banner').should('be.visible').and('contain', 'Fake auth error');
+        cy.get('.auth-form__global-error').should('be.visible').and('contain', 'Fake auth error');
 
         // Type into any field -> banner should disappear (cleared by auth-form's input event listener)
         cy.get('input[name="email"]').type('m');
-        cy.get('.auth-form__error-banner').should('not.exist');
+        cy.get('.auth-form__global-error').should('not.exist');
     });
 
     // 3. API Handlers and Mocking
@@ -57,7 +57,7 @@ describe('Login Page Scenarios', () => {
         cy.wait('@unauthorizedLogin');
 
         // Verify the injected banner and the floating toast notification
-        cy.get('.auth-form__error-banner')
+        cy.get('.auth-form__global-error')
             .should('be.visible')
             .and('contain', 'Incorrect email or password');
 

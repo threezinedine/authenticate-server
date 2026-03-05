@@ -38,7 +38,7 @@ describe('Admin Page Scenarios', () => {
         cy.url().should('include', '/login');
 
         // Ensure the expiration banner is visible to inform the user
-        cy.get('.auth-form__error-banner')
+        cy.get('.auth-form__global-error')
             .should('be.visible')
             .and('contain', 'Session expired. Please log in again.');
     });

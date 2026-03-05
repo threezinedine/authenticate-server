@@ -50,7 +50,7 @@ describe('Registration Page Scenarios', () => {
         cy.wait('@registerFail');
 
         // Assert global banner appears inside the form block with the error text
-        cy.get('.auth-form__error-banner')
+        cy.get('.auth-form__global-error')
             .should('be.visible')
             .and('contain', 'Invalid data provided in payload');
 
@@ -73,7 +73,7 @@ describe('Registration Page Scenarios', () => {
 
         cy.wait('@registerConflict');
 
-        cy.get('.auth-form__error-banner')
+        cy.get('.auth-form__global-error')
             .should('be.visible')
             .and('contain', 'Account already exists');
 

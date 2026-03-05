@@ -13,7 +13,7 @@
 }
 
 /* Global Error Banner */
-.auth-form__error-banner {
+.auth-form__global-error {
     background-color: rgba(239, 68, 68, 0.1);
     border: 1px solid rgba(239, 68, 68, 0.4);
     color: var(--sys-error);

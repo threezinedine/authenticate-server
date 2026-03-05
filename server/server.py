@@ -14,6 +14,8 @@ import os
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from app.seed import seed_database
+    seed_database()
     # Skip creating tables locally during test executions to prevent intercepting test sessions
     if settings.ENVIRONMENT != "test":
         inspector = inspect(engine)
@@ -22,6 +24,8 @@ async def lifespan(app: FastAPI):
             Base.metadata.create_all(bind=engine)
         else:
             print("Database tables already exist.")
+            
+        print("Running database seed automation...")
     else:
         print("Test environment detected, skipping lifespan DB creation.")
     

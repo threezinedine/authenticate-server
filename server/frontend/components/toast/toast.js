@@ -60,7 +60,9 @@ export function publishToast({ msg, type = 'info', duration = 5000 }) {
     container.appendChild(toastItem);
 
     const itemRemoveFnc = () => {
-        container.removeChild(toastItem);
+        if (container.contains(toastItem)) {
+            container.removeChild(toastItem);
+        }
     }
 
     // 4. Handle Removal Logic

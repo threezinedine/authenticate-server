@@ -19,6 +19,12 @@ class Settings(BaseSettings):
     AVATAR_UPLOAD_DIR: str = "./uploads/avatars"
     PORT: int = 8000
     
+    # Pre-Seeded Default Users 
+    ADMIN_EMAIL: str = "admin@ntt.com"
+    ADMIN_PASSWORD: str = "Admin@123!"
+    TEST_USER_EMAIL: str = "user@example.com"
+    TEST_USER_PASSWORD: str = "User@123!"
+    
     @property
     def get_database_url(self) -> str:
         """
