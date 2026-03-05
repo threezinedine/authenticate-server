@@ -7,7 +7,8 @@ export default {
     tags: ['autodocs'],
     argTypes: {
         isCollapsed: { control: 'boolean' },
-        onToggle: { action: 'toggled' }
+        onToggle: { action: 'toggled' },
+        onLogout: { action: 'logout clicked' }
     },
 };
 

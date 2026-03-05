@@ -4,19 +4,24 @@
     height: 100%;
     min-height: 100vh;
     width: 260px;
-    /* Expanded default */
     background: rgba(10, 10, 11, 0.4);
-    /* Dark charcoal, glassmorphic */
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border-right: 1px solid rgba(255, 255, 255, 0.05);
-    /* Subtle border */
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
+    overflow: visible;
+    /* Must be visible so the edge toggle tab can protrude */
     position: relative;
     z-index: 50;
-    /* Above regular content */
 }
+
+/* Inner clip — clips all internal content but leaves the toggle tab free */
+.sidemenu__profile,
+.sidemenu__nav,
+.sidemenu__footer {
+    overflow: hidden;
+}
+
 
 /* --- Collapsed State --- */
 .sidemenu--collapsed {
@@ -110,29 +115,78 @@
     /* Subtle separation */
 }
 
+/* Edge Toggle Tab */
 .sidemenu__toggle-btn {
-    width: 100%;
+    position: absolute;
+    /* Stick to the right edge, vertically centred */
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--space-sm);
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    border-radius: 1000px;
-    /* Pill shape */
-    color: var(--text-main);
+    padding: 0;
+    background: rgba(30, 30, 35, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    color: var(--text-muted);
     cursor: pointer;
-    transition: all 0.2s ease;
+    z-index: 51;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
 .sidemenu__toggle-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
 }
 
-/* When collapsed, pill shrinks to a circle proportionally */
-.sidemenu--collapsed .sidemenu__toggle-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+
+/* Logout Button */
+.sidemenu__logout-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    white-space: nowrap;
+    margin-bottom: var(--space-xs, 4px);
+}
+
+.sidemenu__logout-btn:hover {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+}
+
+.sidemenu__logout-btn svg {
+    flex-shrink: 0;
+}
+
+.sidemenu__logout-label {
+    opacity: 1;
+    transition: opacity 0.2s ease;
+}
+
+/* In collapsed state: hide label, center icon */
+.sidemenu--collapsed .sidemenu__logout-btn {
+    justify-content: center;
+    padding: var(--space-sm);
+}
+
+.sidemenu--collapsed .sidemenu__logout-label {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    pointer-events: none;
 }
