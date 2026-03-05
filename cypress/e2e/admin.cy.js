@@ -42,4 +42,27 @@ describe('Admin Page Scenarios', () => {
             .should('be.visible')
             .and('contain', 'Session expired. Please log in again.');
     });
+    // 3. Normal User Access Restriction
+    it('redirects a non-admin user (role: user) to /login when they try to access /admin', () => {
+        // Seed a valid-looking token for a normal user
+        cy.window().then((win) => {
+            win.localStorage.setItem('access_token', 'fake.normaluser.token');
+        });
+
+        // The backend should return 403 for non-admin tokens on the session check
+        cy.intercept('GET', '/api/v1/users/me', {
+            statusCode: 403,
+            body: { detail: 'Insufficient permissions' }
+        }).as('forbiddenCheck');
+
+        cy.visit('http://localhost:8000/admin');
+
+        cy.wait('@forbiddenCheck');
+
+        cy.url().should('include', '/login');
+
+        cy.get('.auth-form__global-error')
+            .should('be.visible')
+            .and('contain', 'Insufficient permissions. Admin access required.');
+    });
 });

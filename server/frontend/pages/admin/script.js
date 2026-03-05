@@ -21,6 +21,30 @@ if (!token) {
 }
 
 async function initAdminPage() {
+    // ─── 2. Server-side session validation ────────────────────────────────
+    // Verify the stored token is still valid with the backend.
+    // This catches expired tokens that passed the client-side check.
+    const storedToken = localStorage.getItem('access_token');
+    try {
+        const res = await fetch('/api/v1/users/me', {
+            headers: { 'Authorization': `Bearer ${storedToken}` }
+        });
+        if (res.status === 401) {
+            localStorage.removeItem('access_token');
+            sessionStorage.setItem('auth_redirect_msg', 'Session expired. Please log in again.');
+            window.location.replace('/login');
+            return;
+        }
+        if (res.status === 403) {
+            localStorage.removeItem('access_token');
+            sessionStorage.setItem('auth_redirect_msg', 'Insufficient permissions. Admin access required.');
+            window.location.replace('/login');
+            return;
+        }
+    } catch (_) {
+        // Network error — allow page to continue loading
+    }
+
     // --- Render SideMenu Component ---
     const sidebarContainer = document.getElementById('adminSidebarContainer');
 

@@ -125,4 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Put social buttons BELOW the form since it's the standard flow
     container.appendChild(divider);
     container.appendChild(googleBtnContainer);
+
+    // 5. Read any cross-page session messages (e.g. 'Session expired' from /admin redirect)
+    const redirectMsg = sessionStorage.getItem('auth_redirect_msg');
+    if (redirectMsg) {
+        authForm.setGlobalError(redirectMsg);
+        publishToast({ msg: redirectMsg, type: 'error', duration: 5000 });
+        sessionStorage.removeItem('auth_redirect_msg');
+    }
 });
