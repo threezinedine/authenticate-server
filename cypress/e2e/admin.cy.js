@@ -65,4 +65,48 @@ describe('Admin Page Scenarios', () => {
             .should('be.visible')
             .and('contain', 'Insufficient permissions. Admin access required.');
     });
+
+    // 4. Logout Protection
+    it('redirects to /login if a user tries to access /admin directly after logging out', () => {
+        // Assume user is logged in initially
+        cy.window().then((win) => {
+            win.localStorage.setItem('access_token', 'valid.token.for.logout.test');
+        });
+
+        // Mock the initial successful authentication check
+        cy.intercept('GET', '/api/v1/users/me', {
+            statusCode: 200,
+            body: { id: 1, email: 'admin@test.com', role: 'admin' }
+        }).as('sessionCheck');
+
+        // Visit admin dashboard
+        cy.visit('http://localhost:8000/admin');
+        cy.wait('@sessionCheck');
+        cy.url().should('include', '/admin');
+
+        // Simulate clicking the logout button (assuming it exists in the SideMenu)
+        cy.get('.sidemenu__logout-btn').click();
+
+        // The modal should appear
+        cy.get('.modal').should('be.visible');
+        cy.get('.modal__title').should('contain', 'Log out');
+
+        // Click the actual 'Log out' confirm button inside the modal
+        // It has the .btn--danger class
+        cy.get('.modal .btn--danger').last().click();
+
+        // 1. Assert we are redirected to the login screen
+        cy.url().should('include', '/login');
+
+        // 2. Assert the local storage token has been completely wiped
+        cy.window().then((win) => {
+            expect(win.localStorage.getItem('access_token')).to.be.null;
+        });
+
+        // 3. Attempt to visit /admin directly again after logging out
+        cy.visit('http://localhost:8000/admin');
+
+        // 4. Assert protection bounces us back out to /login
+        cy.url().should('include', '/login');
+    });
 });

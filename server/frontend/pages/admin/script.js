@@ -7,6 +7,7 @@
  */
 
 import { createSideMenu } from '/static/components/sidemenu/sidemenu.js';
+import { createModal } from '/static/components/modal/modal.js';
 
 // ─── 1. Immediate client-side token check ─────────────────────────────────
 const token = localStorage.getItem('access_token');
@@ -74,6 +75,33 @@ async function initAdminPage() {
         onToggle: (isNowCollapsed) => {
             // Unused hook for now. The sidemenu autonomously shrinks itself to 80px via CSS.
             // If the main content area layout needs shifting, it can be triggered here.
+        },
+        onLogout: () => {
+            const logoutModal = createModal({
+                title: 'Log out',
+                body: 'Are you sure you want to log out of your session? You will need to re-authenticate to access the dashboard.',
+                variant: 'danger',
+                size: 'sm',
+                actions: [
+                    {
+                        label: 'Cancel',
+                        variant: 'ghost',
+                        onClick: () => {
+                            // Do nothing, modal closes by default
+                        }
+                    },
+                    {
+                        label: 'Log out',
+                        variant: 'danger',
+                        onClick: () => {
+                            localStorage.removeItem('access_token');
+                            window.location.replace('/login');
+                        }
+                    }
+                ]
+            });
+
+            logoutModal.open();
         }
     };
 
