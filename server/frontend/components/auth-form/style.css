@@ -14,15 +14,34 @@
 
 /* Global Error Banner */
 .auth-form__global-error {
-    background-color: rgba(239, 68, 68, 0.1);
-    border: 1px solid rgba(239, 68, 68, 0.4);
-    color: var(--sys-error);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.06) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-left: 3px solid var(--sys-error, #ef4444);
+    color: var(--sys-error, #ef4444);
     padding: var(--space-sm) var(--space-md);
     border-radius: var(--radius-md);
     font-size: var(--text-sm);
     font-weight: 500;
-    margin-bottom: var(--space-sm);
-    animation: fadeInDown var(--transition-fast) ease-out forwards;
+    line-height: 1.5;
+    animation: fadeInDown var(--transition-fast, 150ms) ease-out forwards;
+}
+
+/* Warning icon via SVG background */
+.auth-form__global-error::before {
+    content: "";
+    flex-shrink: 0;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-top: 1px;
+    background-color: var(--sys-error, #ef4444);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='12' y1='8' x2='12' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'%3E%3C/line%3E%3C/svg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'%3E%3C/circle%3E%3Cline x1='12' y1='8' x2='12' y2='12'%3E%3C/line%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'%3E%3C/line%3E%3C/svg%3E");
+    -webkit-mask-size: cover;
+    mask-size: cover;
 }
 
 @keyframes fadeInDown {
