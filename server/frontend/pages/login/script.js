@@ -87,14 +87,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Handle Successful Login specific caching
             if (data.access_token) {
+                // 1. Existing local app storage
                 localStorage.setItem('access_token', data.access_token);
+
+                // 2. Persist the refresh token so the user stays logged in across tab restarts
+                if (data.refresh_token) {
+                    localStorage.setItem('refresh_token', data.refresh_token);
+                }
+
+                // 3. Cross-Domain Cookie for SSO (Option 1 Integration)
+                // In production, Domain=.yourcompany.com securely shares this across microservices.
+                const rootDomain = window.location.hostname === 'localhost' ? 'localhost' : '.' + window.location.hostname.split('.').slice(-2).join('.');
+                document.cookie = `access_token=${data.access_token}; path=/; domain=${rootDomain}; SameSite=Lax; max-age=3600`;
+                if (data.refresh_token) {
+                    // Set refresh token cookie with a longer max-age (e.g., 7 days)
+                    document.cookie = `refresh_token=${data.refresh_token}; path=/; domain=${rootDomain}; SameSite=Lax; max-age=604800`;
+                }
             }
 
             publishToast({ msg: 'Authentication successful! Redirecting...', type: 'success', duration: 2500 });
 
-            // Navigate to dashboard /admin
+            // Check if another service sent the user here to login
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnToUrl = urlParams.get('return_to');
+
+            // Navigate to the referring service or default to local dashboard
             setTimeout(() => {
-                window.location.href = '/admin';
+                if (returnToUrl && returnToUrl.startsWith('http')) {
+                    window.location.href = returnToUrl;
+                } else {
+                    window.location.href = '/admin';
+                }
             }, 1000);
         } catch (error) {
             // Only show "network error" for true fetch failures (offline, DNS, etc.)
