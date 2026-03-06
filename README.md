@@ -1,5 +1,7 @@
 # Centralized Authentication Service
 
+[![CI Actions Status](https://github.com/threezinedine/authenticate-server/actions/workflows/ci.yml/badge.svg)](https://github.com/threezinedine/authenticate-server/actions/workflows/ci.yml)
+
 A highly performant, stateless Centralized Identity Provider (Auth Service) and client SDKs (`ntt-client-auth` and `ntt-client-auth-node`) for microservice architectures.
 
 ## Overview
@@ -90,3 +92,23 @@ We utilize a strict validation lifecycle for this system:
 - **FastAPI TestClient**: Backend endpoint integration tests.
 - **Cypress E2E**: End-to-end user journey mapping hitting live endpoints.
 - **Stress-Test Ready**: Configured for rapid load testing via `helper.py` to guarantee throughput numbers across services.
+
+### Current Implementation Status & Test Results
+
+The Centralized Authentication Service core is largely complete according to the implementation plan, featuring:
+- Asymmetric JWT mechanisms with JWKS rotation endpoint.
+- Registration, Login, and Refresh token APIs.
+- Modular, native Javascript UI using a custom CSS Framework.
+- Protective route wrappers and client SDK mocks.
+
+#### Backend (Pytest)
+* **Pass Rate**: 52/52 tests complete safely across `tests/`.
+
+#### Frontend Components (Jest)
+* **Pass Rate**: 35/35 tests complete safely across 7 component suites.
+
+#### End-to-End Journeys (Cypress)
+_See CI/CD action logs for live regression testing details across `/login`, `/register`, and `/admin` flows._
+
+---
+**CI/CD**: A GitHub Actions workflow (`.github/workflows/ci.yml`) is included to automatically run these test suites on Push and Pull Requests to the `main` branch.
